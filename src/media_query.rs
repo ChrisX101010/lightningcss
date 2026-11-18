@@ -663,11 +663,7 @@ impl<'i> MediaCondition<'i> {
               _ => unreachable!(),
             }),
             operator: *operator,
-            value: MediaFeatureValue::Number(match value {
-              Resolution::Dpi(dpi) => *dpi / 96.0,
-              Resolution::Dpcm(dpcm) => *dpcm * 2.54 / 96.0,
-              Resolution::Dppx(dppx) => *dppx,
-            }),
+            value: MediaFeatureValue::Number(value.to_dppx()),
           });
         }
         _ => {}

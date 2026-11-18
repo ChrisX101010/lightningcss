@@ -9330,6 +9330,26 @@ mod tests {
   }
 
   #[test]
+  fn test_resolution_math_in_media_queries() {
+    minify_test(
+      "@media (resolution: calc(2 * 1x)) { .foo { color: red } }",
+      "@media (resolution:2x){.foo{color:red}}",
+    );
+    minify_test(
+      "@media (min-resolution: calc(1dppx + 1x)) { .foo { color: red } }",
+      "@media (resolution>=2x){.foo{color:red}}",
+    );
+    minify_test(
+      "@media (calc(96dpi + 1x) <= resolution) { .foo { color: red } }",
+      "@media (resolution>=2x){.foo{color:red}}",
+    );
+    minify_test(
+      "@media (resolution: calc(2 * 10dpcm)) { .foo { color: red } }",
+      "@media (resolution:20dpcm){.foo{color:red}}",
+    );
+  }
+
+  #[test]
   fn test_media() {
     minify_test(
       "@media (min-width: 240px) { .foo { color: chartreuse }}",
